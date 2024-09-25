@@ -21,7 +21,7 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         // Allow authentication endpoint
-                        .pathMatchers(HttpMethod.POST, "/keycloak-server/realms/myrealm/protocol/openid-connect/token")
+                        .pathMatchers(HttpMethod.POST, "/keycloak-server/realms/TurismoRealm/protocol/openid-connect/token")
                         .permitAll()
 
                         // Allow access to simple microservice to certain roles
