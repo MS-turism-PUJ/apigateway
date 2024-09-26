@@ -3,7 +3,6 @@ package com.turism.apigateway.config;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,9 +39,8 @@ public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, Mono<A
         @SuppressWarnings("unchecked")
         var roles = (ArrayList<String>) resourceAccess.get("roles");
 
-        Set<SimpleGrantedAuthority> authorities = roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role))
+        return roles.stream()
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
-        return authorities;
     }
 }
