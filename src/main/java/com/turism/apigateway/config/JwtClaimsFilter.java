@@ -16,7 +16,7 @@ public class JwtClaimsFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String requestPath = exchange.getRequest().getPath().toString();
-        if (requestPath.startsWith("/keycloak-server")) {
+        if (requestPath.startsWith("/users/auth")) {
             return chain.filter(exchange);
         }
         return exchange.getPrincipal()
