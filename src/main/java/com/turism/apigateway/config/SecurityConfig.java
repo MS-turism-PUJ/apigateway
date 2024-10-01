@@ -20,15 +20,15 @@ public class SecurityConfig {
                                 .applyPermitDefaultValues()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
-                        // Allow authentication endpoint
                         .pathMatchers(HttpMethod.POST, "/users/auth/**")
                         .permitAll()
 
-                        // Allow access to simple microservice to certain roles
-                        .pathMatchers(HttpMethod.GET, "/simple-microservice/myservice/**")
-                        .hasRole("ADMIN")
+                        .pathMatchers("/marketplace/**")
+                        .hasRole("CLIENT")
 
-                        // For any other request, the user must be authenticated
+                        .pathMatchers("/services/questions/**")
+                        .hasRole("CLIENT")
+
                         .anyExchange().authenticated())
                 // Configures JWT to properly process Keycloak tokens
                 .oauth2ResourceServer(oauth2 -> oauth2
