@@ -1,6 +1,59 @@
 spring:
   application:
     name: apigateway
+  cloud:
+    gateway:
+      # Integration with eureka to automatically discover all the routes of the microservices
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
 
-  config:
-    import: configserver:http://localhost:8888
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Indicates the URL of the Keycloak endpoint that provides the keys to verify JWT tokens        
+          # This is used within the subnet where the microservices are deployed
+          # This URL does not need to be accessible from outside
+          jwk-set-uri: http://localhost:9000/realms/TurismoRealm/protocol/openid-connect/certs
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    registerWithEureka: true
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+# App metadata
+info:
+  app:
+    name: Gateway server
+    description: Gateway server
+    version: 1.0.0
+  company:
+    name: Turismo
+    contact:
+      email: support@turismo.com
+      phone: +1234567890
+  build:
+    time: ${BUILD_TIME:2024-08-21T12:30:00Z}
