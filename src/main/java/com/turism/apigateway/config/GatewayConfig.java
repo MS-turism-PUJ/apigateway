@@ -10,13 +10,13 @@ public class GatewayConfig {
     @Bean
     RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("keycloak_route", r -> r
+                .route("refresh", r -> r
                         // Paths to rewrite
-                        .path("/keycloak-server/**")
+                        .path("/users/auth/refresh")
                         // Rewrite the path to remove /keycloak-server
-                        .filters(f -> f.rewritePath("/keycloak-server/(?<segment>.*)", "/${segment}"))
+                        .filters(f -> f.rewritePath("/users/auth/refresh",
+                                "/realms/TurismoRealm/protocol/openid-connect/token"))
                         // Forward to Keycloak server running on localhost:9000
-                        // TODO Obtain this data from application.yml
                         .uri("http://localhost:9000"))
                 .build();
     }

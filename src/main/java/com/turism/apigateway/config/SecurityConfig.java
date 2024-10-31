@@ -22,8 +22,8 @@ public class SecurityConfig {
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers(HttpMethod.POST, "/users/auth/**")
                         .permitAll()
-                        .pathMatchers(HttpMethod.POST, "/keycloak-server/realms/TurismoRealm/protocol/openid-connect/token")
-                        .permitAll()
+                        // .pathMatchers(HttpMethod.POST, "/keycloak-server/realms/TurismoRealm/protocol/openid-connect/token")
+                        // .permitAll()
 
                         .pathMatchers("/marketplace/**")
                         .hasRole("CLIENT")
