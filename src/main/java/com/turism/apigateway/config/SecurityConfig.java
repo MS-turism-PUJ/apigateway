@@ -29,6 +29,10 @@ public class SecurityConfig {
                         .hasRole("CLIENT")
                         .pathMatchers("/services/questions/**")
                         .hasRole("CLIENT")
+                        .pathMatchers("/services/rating/**")
+                        .hasRole("CLIENT")
+                        .pathMatchers("/services/**")
+                        .hasRole("PROVIDER")
 
                         .anyExchange().authenticated())
                 // Configures JWT to properly process Keycloak tokens
