@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +22,7 @@ public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, Mono<A
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
 
     @Override
-    public Mono<AbstractAuthenticationToken> convert(Jwt source) {
+    public Mono<AbstractAuthenticationToken> convert(@NonNull Jwt source) {
         return Mono.just(source)
                 .flatMap(jwt -> {
                     Collection<GrantedAuthority> authorities = Stream.concat(
