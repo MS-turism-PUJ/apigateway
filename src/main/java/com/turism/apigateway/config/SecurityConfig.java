@@ -22,14 +22,13 @@ public class SecurityConfig {
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers(HttpMethod.POST, "/users/auth/**")
                         .permitAll()
-                        // .pathMatchers(HttpMethod.POST, "/keycloak-server/realms/TurismoRealm/protocol/openid-connect/token")
-                        // .permitAll()
-
                         .pathMatchers("/marketplace/**")
                         .hasRole("CLIENT")
                         .pathMatchers("/services/questions/**")
                         .hasRole("CLIENT")
-                        .pathMatchers("/services/rating/**")
+                        .pathMatchers(HttpMethod.GET, "/services/ratings/**")
+                        .authenticated()
+                        .pathMatchers("/services/ratings/**")
                         .hasRole("CLIENT")
                         .pathMatchers("/services/**")
                         .hasRole("PROVIDER")
