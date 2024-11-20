@@ -12,36 +12,35 @@ import org.springframework.web.cors.CorsConfiguration;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    @Bean
-    SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        return http
-                .cors(cors -> cors
-                        .configurationSource(request -> new CorsConfiguration()
-                                .applyPermitDefaultValues()))
-                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .authorizeExchange(exchange -> exchange
-                        .pathMatchers(HttpMethod.POST, "/users/auth/**")
-                        .permitAll()
-                        .pathMatchers("/marketplace/**")
-                        .hasRole("CLIENT")
-                        .pathMatchers("/services/questions/**")
-                        .hasRole("CLIENT")
-                        .pathMatchers("/services/ratings/**")
-                        .hasRole("CLIENT")
-                        .pathMatchers(HttpMethod.GET, "/services/ratings/**")
-                        .authenticated()
-                        .pathMatchers("/services/contents/{serviceId}/photo")
-                        .authenticated()
-                        .pathMatchers("/services/**")
-                        .hasRole("PROVIDER")
+        @Bean
+        SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+                return http
+                                .cors(cors -> cors
+                                                .configurationSource(request -> new CorsConfiguration()
+                                                                .applyPermitDefaultValues()))
+                                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                                .authorizeExchange(exchange -> exchange
+                                                .pathMatchers(HttpMethod.POST, "/users/auth/**")
+                                                .permitAll()
+                                                .pathMatchers("/marketplace/**")
+                                                .authenticated()
+                                                .pathMatchers("/services/questions/**")
+                                                .hasRole("CLIENT")
+                                                .pathMatchers(HttpMethod.GET, "/services/ratings/**")
+                                                .authenticated()
+                                                .pathMatchers("/services/ratings/**")
+                                                .hasRole("CLIENT")
+                                                .pathMatchers("/services/contents/{serviceId}/photo")
+                                                .authenticated()
+                                                .pathMatchers("/services/**")
+                                                .hasRole("PROVIDER")
 
-                        .anyExchange().authenticated())
-                // Configures JWT to properly process Keycloak tokens
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(
-                                new KeycloakJwtAuthenticationConverter())))
-                .build();
-    }
+                                                .anyExchange().authenticated())
+                                // Configures JWT to properly process Keycloak tokens
+                                .oauth2ResourceServer(oauth2 -> oauth2
+                                                .jwt(jwt -> jwt.jwtAuthenticationConverter(
+                                                                new KeycloakJwtAuthenticationConverter())))
+                                .build();
+        }
 
 }
-
