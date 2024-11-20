@@ -17,7 +17,7 @@ public class GatewayConfig {
                         .filters(f -> f.rewritePath("/users/auth/refresh",
                                 "/realms/TurismoRealm/protocol/openid-connect/token"))
                         // Forward to Keycloak server running on localhost:9000
-                        .uri("http://keycloak:9000"))
+                        .uri("http://localhost:9000"))
                 .build();
     }
 }
