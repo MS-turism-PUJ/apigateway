@@ -16,8 +16,13 @@ public class SecurityConfig {
         SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
                 return http
                                 .cors(cors -> cors
-                                                .configurationSource(request -> new CorsConfiguration()
-                                                                .applyPermitDefaultValues()))
+                                                .configurationSource(request -> {
+                                                        CorsConfiguration config = new CorsConfiguration();
+                                                        config.applyPermitDefaultValues();
+                                                        config.addAllowedOrigin("http://webapp");
+                                                        config.addAllowedOrigin("http://10.43.103.97");
+                                                        return config;
+                                                }))
                                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                                 .authorizeExchange(exchange -> exchange
                                                 .pathMatchers(HttpMethod.POST, "/users/auth/**")
